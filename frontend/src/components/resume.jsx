@@ -124,7 +124,7 @@ export function ResumeChecker() {
             placeholder="Enter job description here"
             value={jobDescription}
             onChange={handleJobDescriptionChange}
-            className="w-full h-32 p-4 border rounded-lg border-gray-300 text-gray-700"
+            className="w-full h-28 p-4 border rounded-lg border-gray-300 text-gray-700"
           />
         </div>
 
