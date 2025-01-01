@@ -1,11 +1,16 @@
+import React from 'react';
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils'; // Utility function for conditional class names
+import { cn } from '@/lib/utils';
+import { NavBar } from './nav-bar';
 
 export function ResumeChecker() {
   const [isDragging, setIsDragging] = useState(false);
+  const [file, setFile] = useState(null);
+  const [jobDescription, setJobDescription] = useState('');
+  const [isEvaluateButtonDisabled, setIsEvaluateButtonDisabled] = useState(true);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -19,31 +24,62 @@ export function ResumeChecker() {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-    const file = e.dataTransfer.files[0];
+    const uploadedFile = e.dataTransfer.files[0];
     if (
-      file &&
-      (file.type === 'application/pdf' ||
-        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+      uploadedFile &&
+      (uploadedFile.type === 'application/pdf' ||
+        uploadedFile.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     ) {
-      console.log('File uploaded:', file);
+      setFile(uploadedFile);
     }
   };
 
+  const handleJobDescriptionChange = (e) => {
+    const description = e.target.value;
+    setJobDescription(description);
+  };
+
+  const handleFileUpload = (e) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+
+  const handleEvaluateClick = () => {
+    // Logic for evaluating the resume based on the job description
+    console.log('Evaluating resume with job description:', jobDescription);
+  };
+
+  // Enable the Evaluate button if both file and job description are provided
+  const checkIfButtonShouldBeEnabled = () => {
+    if (file && jobDescription.trim()) {
+      setIsEvaluateButtonDisabled(false);
+    } else {
+      setIsEvaluateButtonDisabled(true);
+    }
+  };
+
+  // Watch for changes in job description or file to re-enable/disable button
+  React.useEffect(() => {
+    checkIfButtonShouldBeEnabled();
+  }, [file, jobDescription]);
+
   return (
     <div className="w-screen min-h-screen bg-gradient-to-br from-emerald-50/80 to-purple-50/80">
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4">
+      <NavBar />
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 pt-20">
         <div className="w-full max-w-3xl text-center mb-8">
-          
           <div className="space-y-4">
-            <div className="text-blue-400 font-medium">RESUME CHECKER</div>
+            <div className="text-blue-400 font-medium pt-2">RESUME CHECKER</div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
               Is your resume good enough?
             </h1>
             <div className="inline-flex items-center gap-2 text-sm text-gray-600 mb-2">
-            <span>Home</span>
-            <span className="text-gray-400">&nbsp;&gt;&nbsp;</span>
-            <span className="text-blue-400">Resume Checker</span>
-          </div>
+              <span>Home</span>
+              <span className="text-gray-400">&nbsp;&gt;&nbsp;</span>
+              <span className="text-blue-400">Resume Checker</span>
+            </div>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready to perform and get you interview callbacks.
             </p>
@@ -74,12 +110,7 @@ export function ResumeChecker() {
               type="file"
               className="hidden"
               accept=".pdf,.docx"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  console.log('File selected:', file);
-                }
-              }}
+              onChange={handleFileUpload}
             />
             <div className="flex items-center gap-2 mt-4 text-sm text-gray-500">
               <Lock className="h-4 w-4" />
@@ -87,6 +118,26 @@ export function ResumeChecker() {
             </div>
           </CardContent>
         </Card>
+
+        <div className="w-full max-w-2xl mt-8">
+          <textarea
+            placeholder="Enter job description here"
+            value={jobDescription}
+            onChange={handleJobDescriptionChange}
+            className="w-full h-32 p-4 border rounded-lg border-gray-300 text-gray-700"
+          />
+        </div>
+
+        <div className="w-full max-w-2xl mt-4">
+          <Button
+            variant="primary"
+            onClick={handleEvaluateClick}
+            disabled={isEvaluateButtonDisabled}
+            className="w-full py-2 px-6 rounded-lg bg-black-600 text-white hover:bg-black-500 transition-colors"
+          >
+            Evaluate
+          </Button>
+        </div>
       </div>
     </div>
   );

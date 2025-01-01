@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import { ResumeDropdown } from './ResumeDropdown';
 import { useState } from 'react';
+import { Link } from 'react-router';
 
 export function NavBar() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -40,13 +41,13 @@ export function NavBar() {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <button className="text-gray-600 hover:text-gray-900">Sign in</button>
+          <button className="text-gray-600 hover:text-gray-900"><Link to="/login">Log In</Link></button>
           <button className="bg-black-600 text-white px-4 py-2 rounded-lg hover:bg-black-500">
-            Get Started
+            <Link to="/signup">Sign Up</Link>
           </button>
         </div>
       </div>
-
+        
       <div
         className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
           isResumeOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'

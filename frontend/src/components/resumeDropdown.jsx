@@ -15,6 +15,7 @@ import { ChevronRight } from "lucide-react";
 export function ResumeDropdown({ onClose }) {
   return (
     <div className="absolute top-full left-0 w-full bg-white shadow-lg border-t">
+    
       <div className="max-w-7xl mx-auto p-8 grid grid-cols-[1fr_1fr_1fr_1.5fr] gap-8">
         <div className="flex flex-col gap-0">
           <h3 className="flex items-center gap-2 text-Black-600 font-medium mb-6 text-left">
