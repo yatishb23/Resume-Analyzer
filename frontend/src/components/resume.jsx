@@ -134,7 +134,8 @@ export function ResumeChecker() {
             placeholder="Enter job description here"
             value={jobDescription}
             onChange={handleJobDescriptionChange}
-            className="w-full h-28 p-4 border rounded-lg border-gray-300 text-gray-700"
+            className={`w-full h-28 p-4 border rounded-lg border-gray-300 ${ 
+              theme==="dark" ? " bg-black-600 text-white": "text-gray-600 bg-white"}`}
           />
         </div>
 
@@ -149,16 +150,6 @@ export function ResumeChecker() {
           </Button>
         </div>
 
-        {/* Theme Toggle Button */}
-        <div className="w-full max-w-2xl mt-8 text-center">
-          <Button
-            variant="outline"
-            onClick={toggleTheme}
-            className="w-full py-2 px-6 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors"
-          >
-            Toggle Theme
-          </Button>
-        </div>
       </div>
     </div>
   );
