@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { NavBar } from './nav-bar';
 
@@ -11,6 +10,7 @@ export function ResumeChecker() {
   const [file, setFile] = useState(null);
   const [jobDescription, setJobDescription] = useState('');
   const [isEvaluateButtonDisabled, setIsEvaluateButtonDisabled] = useState(true);
+  const [theme, setTheme] = useState('light'); 
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -47,11 +47,9 @@ export function ResumeChecker() {
   };
 
   const handleEvaluateClick = () => {
-    // Logic for evaluating the resume based on the job description
     console.log('Evaluating resume with job description:', jobDescription);
   };
 
-  // Enable the Evaluate button if both file and job description are provided
   const checkIfButtonShouldBeEnabled = () => {
     if (file && jobDescription.trim()) {
       setIsEvaluateButtonDisabled(false);
@@ -60,19 +58,31 @@ export function ResumeChecker() {
     }
   };
 
-  // Watch for changes in job description or file to re-enable/disable button
   React.useEffect(() => {
     checkIfButtonShouldBeEnabled();
   }, [file, jobDescription]);
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  useEffect(() => {
+    document.body.className = theme === 'dark' ? 'dark' : 'light';
+  }, [theme]);
+
   return (
-    <div className="w-screen min-h-screen bg-gradient-to-br from-emerald-50/80 to-purple-50/80">
-      <NavBar />
+    <div
+      className={cn(
+        'w-screen min-h-screen transition-colors',
+        theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gradient-to-br from-emerald-50/80 to-purple-50/80'
+      )}
+    >
+      <NavBar toggleTheme={toggleTheme} theme={theme} />
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 pt-20">
         <div className="w-full max-w-3xl text-center mb-8">
           <div className="space-y-4">
             <div className="text-blue-400 font-medium pt-2">RESUME CHECKER</div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <h1 className={`text-4xl md:text-5xl font-bold ${theme==="light" ?"text-gray-900" :"text-white"}`}>
               Is your resume good enough?
             </h1>
             <div className="inline-flex items-center gap-2 text-sm text-gray-600 mb-2">
@@ -136,6 +146,17 @@ export function ResumeChecker() {
             className="w-full py-2 px-6 rounded-lg bg-black-600 text-white hover:bg-black-500 transition-colors"
           >
             Evaluate
+          </Button>
+        </div>
+
+        {/* Theme Toggle Button */}
+        <div className="w-full max-w-2xl mt-8 text-center">
+          <Button
+            variant="outline"
+            onClick={toggleTheme}
+            className="w-full py-2 px-6 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors"
+          >
+            Toggle Theme
           </Button>
         </div>
       </div>

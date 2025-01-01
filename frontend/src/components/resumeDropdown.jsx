@@ -1,24 +1,18 @@
-import { useState } from "react";
-import {
-  ChevronDown,
-  Layout,
-  FileText,
-  Box,
-  File,
-  BookOpen,
-  Clock,
-  Zap,
-  CheckCircle,
-} from "lucide-react";
+import { ChevronDown, Layout, FileText, Box, File, BookOpen, Clock, Zap, CheckCircle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 
-export function ResumeDropdown({ onClose }) {
+export function ResumeDropdown({ onClose, theme }) {
   return (
-    <div className="absolute top-full left-0 w-full bg-white shadow-lg border-t">
-    
+    <div
+      className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+      }`}
+    >
       <div className="max-w-7xl mx-auto p-8 grid grid-cols-[1fr_1fr_1fr_1.5fr] gap-8">
         <div className="flex flex-col gap-0">
-          <h3 className="flex items-center gap-2 text-Black-600 font-medium mb-6 text-left">
+          <h3 className={`flex items-center gap-2 font-medium mb-6 text-left text-black-600 ${
+            theme==="dark" ? "text-white": "text-black-600"
+          }`}>
             <Layout className="h-5 w-5" />
             Resume Templates
             <ChevronRight className="h-4 w-4" />
@@ -30,8 +24,7 @@ export function ResumeDropdown({ onClose }) {
                 Creative Templates
               </div>
               <p className="text-xs text-gray-600">
-                Creative resume for creative industries to capture the
-                recruiter's attention
+                Creative resume for creative industries to capture the recruiter's attention
               </p>
             </div>
             <div>
@@ -40,8 +33,7 @@ export function ResumeDropdown({ onClose }) {
                 Traditional Templates
               </div>
               <p className="text-xs text-gray-600">
-                For conservative industries when you need to show your career
-                accomplishments
+                For conservative industries when you need to show your career accomplishments
               </p>
             </div>
             <div>
@@ -50,15 +42,16 @@ export function ResumeDropdown({ onClose }) {
                 Simple Templates
               </div>
               <p className="text-xs text-gray-600">
-                Focus on your skills and accomplishments with simple resume
-                templates
+                Focus on your skills and accomplishments with simple resume templates
               </p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-0">
-          <h3 className="flex items-center gap-1 text-black-600 font-medium mb-6 text-left">
+          <h3 className={`flex items-center gap-2 font-medium mb-6 text-left text-black-600 ${
+            theme==="dark" ? "text-white": "text-black-600"
+          }`}>
             <BookOpen className="h-5 w-5" />
             Resume Writing Guides
             <ChevronRight className="h-4 w-4" />
@@ -67,15 +60,13 @@ export function ResumeDropdown({ onClose }) {
             <div>
               <div className="font-medium mb-1">Writing a Resume</div>
               <p className="text-xs text-gray-600 ">
-                The most comprehensive guide on the internet about writing a
-                resume
+                The most comprehensive guide on the internet about writing a resume
               </p>
             </div>
             <div>
               <div className="font-medium mb-1">Resume Summary</div>
               <p className="text-xs text-gray-600">
-                How to include and write a summary that gets your point across
-                quickly
+                How to include and write a summary that gets your point across quickly
               </p>
             </div>
             <div>
@@ -89,7 +80,9 @@ export function ResumeDropdown({ onClose }) {
 
         <div className="flex flex-col gap-0">
           <div>
-            <h3 className="flex items-center gap-2 text-black-600 font-medium mb-4 ">
+            <h3 className={`flex items-center gap-2 font-medium mb-6 text-left text-black-600 ${
+            theme==="dark" ? "text-white": "text-black-600"
+          }`}>
               <Layout className="h-5 w-5" />
               Resume Examples
               <ChevronRight className="h-4 w-4 text-left" />
