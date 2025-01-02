@@ -5,7 +5,7 @@ import { ResumeChecker } from "./components/resume";
 import { LoginDialog } from "./components/Logins/Login";
 import { SignupDialog } from "./components/Logins/Signup";
 import { ThemeProvider } from "./components/theme";
-import { Feedback } from "./components/Feedback";
+import Feedback from "./components/Feedback";
 
 function App() {
   return (

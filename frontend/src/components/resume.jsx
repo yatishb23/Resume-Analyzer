@@ -49,20 +49,19 @@ export function ResumeChecker() {
   
       if (selectedFile.type === 'application/pdf') {
         reader.onload = (event) => {
-          const content = event.target.result; // Base64 Data URL
+          const content = event.target?.result; // Base64 Data URL
           setResumeContent(content);
         };
         reader.readAsDataURL(selectedFile);
       } else {
         reader.onload = (event) => {
-          const content = event.target.result; // Text content for DOCX
+          const content = event.target?.result; // Text content for DOCX
           setResumeContent(content);
         };
         reader.readAsText(selectedFile);
       }
     }
   };
-  
   
 
   const handleEvaluateClick = async () => {
