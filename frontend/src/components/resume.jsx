@@ -5,9 +5,10 @@ import { Card, CardContent } from "./ui/card";
 import { cn } from "../lib/utils";
 import { useTheme } from "./theme";
 import { useNavigate } from "react-router-dom";
+import { NavBar } from "./nav-bar";
 
 export function ResumeChecker() {
-  const { theme } = useTheme();
+  const { theme,toggleTheme } = useTheme();
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState(null);
   const [resumeContent, setResumeContent] = useState('');
@@ -81,6 +82,7 @@ export function ResumeChecker() {
           : "bg-gradient-to-br from-emerald-50/80 to-purple-50/80"
       )}
     >
+    <NavBar toggleTheme={toggleTheme} theme={theme} />
       <div className="flex flex-col items-center justify-center min-h-screen p-4 pt-20">
         <div className="w-full max-w-3xl text-center mb-8">
           <div className="space-y-4">
