@@ -44,14 +44,26 @@ export function ResumeChecker() {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
+  
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const content = event.target?.result ;
-        setResumeContent(content);
-      };
-      reader.readAsText(selectedFile);
+  
+      if (selectedFile.type === 'application/pdf') {
+        reader.onload = (event) => {
+          const content = event.target.result; // Base64 Data URL
+          setResumeContent(content);
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        reader.onload = (event) => {
+          const content = event.target.result; // Text content for DOCX
+          setResumeContent(content);
+        };
+        reader.readAsText(selectedFile);
+      }
     }
   };
+  
+  
 
   const handleEvaluateClick = async () => {
     setIsLoading(true);
@@ -60,14 +72,21 @@ export function ResumeChecker() {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       // Redirect to feedback page with resume content and job description
-      navigate('/feedback', { state: { resumeContent, jobDescription } });
+      navigate('/feedback', { 
+        state: { 
+          resumeContent, 
+          jobDescription, 
+          fileType: file.type, 
+          fileName: file.name 
+        } 
+      });
     } catch (error) {
       console.error("Error evaluating resume:", error);
-      // Handle error (e.g., show error message to user)
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     setIsEvaluateButtonDisabled(!(file && jobDescription.trim()));
