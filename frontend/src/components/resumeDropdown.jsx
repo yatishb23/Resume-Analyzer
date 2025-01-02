@@ -4,8 +4,8 @@ import { ChevronRight } from "lucide-react";
 export function ResumeDropdown({ onClose, theme }) {
   return (
     <div
-      className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
-        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+      className={`absolute top-full left-0 w-full shadow-lg border-t transform transition-all duration-300 ${
+        theme === "dark" ? "bg-black-600 text-white" : "bg-white text-black"
       }`}
     >
       <div className="max-w-7xl mx-auto p-8 grid grid-cols-[1fr_1fr_1fr_1.5fr] gap-8">

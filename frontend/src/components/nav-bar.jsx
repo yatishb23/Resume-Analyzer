@@ -9,7 +9,7 @@ export function NavBar({ toggleTheme, theme }) {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 border-b shadow-md transition-colors duration-300 ${
-        theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'
+        theme === 'dark' ? 'bg-black-700 text-white' : 'bg-white text-black'
       }`}
     >
       <div className="flex items-center justify-between h-16 px-6">
@@ -90,8 +90,6 @@ export function NavBar({ toggleTheme, theme }) {
         className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
           isResumeOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
         }`}
-        onMouseEnter={() => setIsResumeOpen(true)}
-        onMouseLeave={() => setIsResumeOpen(false)}
       >
         {isResumeOpen && <ResumeDropdown onClose={() => setIsResumeOpen(false) } theme={theme} />}
       </div>

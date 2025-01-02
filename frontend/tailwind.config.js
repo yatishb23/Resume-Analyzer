@@ -11,8 +11,10 @@ module.exports = {
   		},
   		colors: {
         black: {
-          500: '#333333',
+          400: '#333333',
+		  500:"#1d1f1e",
           600: '#1a1a1a',
+		  700:"#0f0f0f"
         },
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
