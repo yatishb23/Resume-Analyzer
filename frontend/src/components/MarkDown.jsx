@@ -39,13 +39,13 @@
 //     </div>
 //   );
 // }
-
 import { FaUser, FaRobot } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "./theme";
 
-export default function MarkMessage({ text, sender }) {
-    const {theme,toggleTheme} =useTheme()
+export default function MarkMessage({ text, sender, isStreaming }) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div
       className={`flex ${
@@ -70,18 +70,15 @@ export default function MarkMessage({ text, sender }) {
           )}
         </div>
         <div
-          className={`rounded-lg px-3 py-2  ${
+          className={`rounded-lg px-3 py-2 ${
             sender === "user"
               ? "shadow bg-gray-100 text-black-700 dark:bg-gray-700 dark:text-gray-200 rounded-tl-none"
-              : ""
-          }
-          `}
+              : "shadow bg-white text-black-900 dark:bg-gray-800 dark:text-gray-200"
+          }`}
         >
           <div
             className={`prose prose-sm max-w-none ${
-              sender === "user"
-                ? "prose-invert"
-                : ""
+              sender === "user" ? "prose-invert" : ""
             }`}
           >
             <ReactMarkdown
@@ -127,6 +124,13 @@ export default function MarkMessage({ text, sender }) {
             >
               {text}
             </ReactMarkdown>
+            {isStreaming && (
+              <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 mt-2">
+                <div className="w-2 h-2 bg-gray-500 dark:bg-gray-400 rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-gray-500 dark:bg-gray-400 rounded-full animate-bounce delay-100" />
+                <div className="w-2 h-2 bg-gray-500 dark:bg-gray-400 rounded-full animate-bounce delay-200" />
+              </div>
+            )}
           </div>
         </div>
       </div>

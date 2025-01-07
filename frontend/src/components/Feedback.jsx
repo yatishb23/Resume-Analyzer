@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "./theme";
 import { NavBar } from "./nav-bar";
 import ChatBotCard from "./BotCard";
+import ChatPage from "./ChatPage";
 
 export default function Feedback() {
   const [expandedSections, setExpandedSections] = useState(["CONTENT"]);
@@ -85,8 +86,8 @@ export default function Feedback() {
   return (
     <div className="min-h-screen w-full bg-gray-50 dark:bg-black-600 overflow-x-hidden">
       <NavBar toggleTheme={toggleTheme} theme={theme} />
-      <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[400px,1fr] gap-4 justify-center">
+      <div className="h-full w-full pt-20 pb-6 pl-8 pr-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[400px,1fr] gap-4 max-w-full">
           {/* Left Panel */}
           <Card
             className={` max-h-[670px] overflow-y-auto scrollbar-hidden ${
@@ -105,7 +106,6 @@ export default function Feedback() {
                   11 Issues
                 </div>
               </div>
-
               <div className="space-y-2">
                 {sections.map((section) => (
                   <div
@@ -139,7 +139,7 @@ export default function Feedback() {
                         <ChevronDown className="h-5 w-5" />
                       )}
                     </button>
-
+  
                     {expandedSections.includes(section.name) &&
                       section.items.length > 0 && (
                         <div className="px-4 pb-4">
@@ -170,75 +170,9 @@ export default function Feedback() {
             </CardContent>
           </Card>
           <ChatBotCard />
-          {/* Right Panel */}
-          {/* <Card className={` ${ theme==='dark' ? "bg-black-700 border border-purple-300":""}`}>
-            <CardHeader className="flex flex-row items-center justify-between p-6">
-              <div className="flex items-center gap-3">
-                <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-lg">
-                  <div className="h-6 w-6 text-purple-600 dark:text-purple-400">
-                    📄
-                  </div>
-                </div>
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                  CONTENT
-                </h2>
-              </div>
-              <div className="bg-gray-100 dark:bg-gray-700 px-4 py-1 rounded-full text-sm text-gray-600 dark:text-gray-300">
-                5 ISSUES FOUND
-              </div>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-                    <span className="text-purple-600 dark:text-purple-400">
-                      ⚡
-                    </span>
-                    ATS PARSE RATE
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    An{" "}
-                    <span className="font-medium">
-                      Applicant Tracking System
-                    </span>{" "}
-                    commonly referred to as{" "}
-                    <span className="font-medium">ATS</span> is a system used by
-                    employers and recruiters to quickly scan a large number of
-                    job applications.
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
-                    A high parse rate of your resume ensures that the ATS can
-                    read your resume, experience, and skills. This increases the
-                    chance of getting your resume seen by recruiters.
-                  </p>
-
-                  <div className="space-y-4">
-                    <Progress value={87} className="h-2" />
-                    <div className="text-center">
-                      <h4 className="font-semibold text-xl mb-2 text-gray-800 dark:text-gray-200">
-                        Great!
-                      </h4>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        We parsed 87% of your resume successfully using an
-                        industry-leading ATS.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-purple-50 dark:bg-purple-900 rounded-xl p-8 text-center">
-                  <h3 className="text-xl font-semibold text-purple-900 dark:text-purple-100 mb-4">
-                    Job-Winning Resume In Minutes
-                  </h3>
-                  <Button className="bg-purple-600 hover:bg-purple-700 text-white px-6">
-                    Create an Enhancy Resume
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card> */}
         </div>
       </div>
     </div>
   );
+  
 }
