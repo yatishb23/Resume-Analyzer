@@ -1,7 +1,7 @@
-import { ChevronDown } from 'lucide-react';
-import { ResumeDropdown } from './ResumeDropdown';
-import { useState } from 'react';
-import { Link } from 'react-router';
+import { ChevronDown } from "lucide-react";
+import { ResumeDropdown } from "./ResumeDropdown";
+import { useState } from "react";
+import { Link } from "react-router";
 
 export function NavBar({ toggleTheme, theme }) {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -9,7 +9,7 @@ export function NavBar({ toggleTheme, theme }) {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 border-b shadow-md transition-colors duration-300 ${
-        theme === 'dark' ? 'bg-black-700 text-white' : 'bg-white text-black'
+        theme === "dark" ? "bg-black-700 text-white" : "bg-white text-black"
       }`}
     >
       <div className="flex items-center justify-between h-16 px-6">
@@ -17,7 +17,7 @@ export function NavBar({ toggleTheme, theme }) {
           <a href="/" className="flex items-center gap-2">
             <svg
               className={`h-8 w-8 ${
-                theme === 'dark' ? 'text-white' : 'text-black-500'
+                theme === "dark" ? "text-white" : "text-black-500"
               }`}
               viewBox="0 0 24 24"
               fill="none"
@@ -35,7 +35,8 @@ export function NavBar({ toggleTheme, theme }) {
               className="flex items-center gap-2 hover:text-gray-900"
               onClick={() => setIsResumeOpen(!isResumeOpen)}
               onMouseEnter={() => setIsResumeOpen(true)}
-              onMouseLeave={() => setIsResumeOpen(false)}
+              
+              
             >
               Resume
               <ChevronDown className="h-4 w-4" />
@@ -53,7 +54,7 @@ export function NavBar({ toggleTheme, theme }) {
             className="p-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-colors"
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? (
+            {theme === "dark" ? (
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -79,20 +80,30 @@ export function NavBar({ toggleTheme, theme }) {
               </svg>
             )}
           </button>
-          <button className="hover:text-gray-900"><Link to="/login">Log In</Link></button>
+          <button className="hover:text-gray-900">
+            <Link to="/login">Log In</Link>
+          </button>
           <button className="bg-black-600 text-white px-4 py-2 rounded-lg hover:bg-black-500">
             <Link to="/signup">Sign Up</Link>
           </button>
         </div>
+        
       </div>
-
       <div
-        className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
-          isResumeOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
-        }`}
-      >
-        {isResumeOpen && <ResumeDropdown onClose={() => setIsResumeOpen(false) } theme={theme} />}
-      </div>
+          className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
+            isResumeOpen
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-4"
+          }`}
+          onMouseLeave={() => setIsResumeOpen(false)}
+        >
+          {isResumeOpen && (
+            <ResumeDropdown
+              onClose={() => setIsResumeOpen(false)}
+              theme={theme}
+            />
+          )}
+        </div>
     </nav>
   );
 }

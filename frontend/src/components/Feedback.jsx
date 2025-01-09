@@ -10,6 +10,8 @@ import { useTheme } from "./theme";
 import { NavBar } from "./nav-bar";
 import ChatBotCard from "./BotCard";
 import ChatPage from "./ChatPage";
+import FileUpload from "./fileUpload";
+import NewPropt from "./NewPropt";
 
 export default function Feedback() {
   const [expandedSections, setExpandedSections] = useState(["CONTENT"]);
@@ -170,6 +172,8 @@ export default function Feedback() {
             </CardContent>
           </Card>
           <ChatBotCard />
+          {/* <FileUpload/> */}
+          {/* <NewPropt/> */}
         </div>
       </div>
     </div>

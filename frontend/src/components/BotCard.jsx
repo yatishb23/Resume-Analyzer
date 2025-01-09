@@ -5,6 +5,8 @@ import TextareaAutosize from "react-textarea-autosize";
 import Markdown from "react-markdown";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useTheme } from "./theme";
+import { Share2, Mic } from "lucide-react";
+import { Progress } from "@radix-ui/react-progress";
 
 function ChatBotCard() {
   const [messages, setMessages] = useState([]);
@@ -12,6 +14,7 @@ function ChatBotCard() {
   const [isLoading, setIsLoading] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const messagesEndRef = useRef(null);
+  const [file, setFile] = useState(null);
 
   const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -82,7 +85,6 @@ function ChatBotCard() {
         console.log("Received chunk:", chunkText);
         accumulatedText += chunkText;
 
-        // Update the bot's message text securely
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages];
           if (updatedMessages[botMessageIndex]) {
@@ -92,7 +94,6 @@ function ChatBotCard() {
         });
       }
 
-      // Mark the bot message as complete
       setMessages((prevMessages) => {
         const updatedMessages = [...prevMessages];
         if (updatedMessages[botMessageIndex]) {
@@ -119,6 +120,10 @@ function ChatBotCard() {
     }
   };
 
+  const handleAttachment = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   return (
     <Card className="w-full h-[670px] bg-white dark:bg-black-600 shadow-xl flex flex-col border border-white">
       <CardHeader className="flex-shrink-0 flex flex-row items-center justify-between p-4 ">
@@ -127,61 +132,34 @@ function ChatBotCard() {
         </h2>
       </CardHeader>
       <CardContent className="pl-20 pr-20 flex flex-col item-center h-[calc(100%-5rem)] overflow-hidden">
-        {/* <div className="space-y-4">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-            <span className="text-purple-600 dark:text-purple-400">⚡</span>
-            ATS PARSE RATE
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
-            An <span className="font-medium">Applicant Tracking System</span>{" "}
-            commonly referred to as <span className="font-medium">ATS</span>{" "}
-            is a system used by employers and recruiters to quickly scan a
-            large number of job applications.
-          </p>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            A high parse rate of your resume ensures that the ATS can read
-            your resume, experience, and skills. This increases the chance of
-            getting your resume seen by recruiters.
-          </p>
-          <Progress value={87} className="h-2" />
-          <div className="text-center">
-            <h4 className="font-semibold text-xl mb-2 text-gray-800 dark:text-gray-200">
-              Great!
-            </h4>
-            <p className="text-gray-600 dark:text-gray-400">
-              We parsed 87% of your resume successfully using an
-              industry-leading ATS.
-            </p>
-          </div>
-        </div> */}
-
-        {/* <div className="lex-grow overflow-y-auto space-y-4 p-4">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`message p-3 rounded-md`}
-            >
-              <Markdown
-                className={`flex flex-col text-sm ${
-                  msg.sender === "user"
-                    ? "flex-end justify-end items-end text-right"
-                    : "w-2/3 flex-start justify-start text-left items-baseline gap-4"
-                }`}
-              >
-                {msg.text}
-              </Markdown>
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
-              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" />
-              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100" />
-              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-200" />
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div> */}
         <div className="flex-grow overflow-y-auto space-y-4 p-4">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
+              <span className="text-purple-600 dark:text-purple-400">⚡</span>
+              ATS PARSE RATE
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              An <span className="font-medium">Applicant Tracking System</span>{" "}
+              commonly referred to as <span className="font-medium">ATS</span>{" "}
+              is a system used by employers and recruiters to quickly scan a
+              large number of job applications.
+            </p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              A high parse rate of your resume ensures that the ATS can read
+              your resume, experience, and skills. This increases the chance of
+              getting your resume seen by recruiters.
+            </p>
+            <Progress value={87} className="h-2" />
+            <div className="text-center">
+              <h4 className="font-semibold text-xl mb-2 text-gray-800 dark:text-gray-200">
+                Great!
+              </h4>
+              <p className="text-gray-600 dark:text-gray-400">
+                We parsed 87% of your resume successfully using an
+                industry-leading ATS.
+              </p>
+            </div>
+          </div>
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -255,20 +233,35 @@ function ChatBotCard() {
         </div>
       </CardContent>
       <div className="border-t p-4 sticky bottom-0 rounded-br-lg rounded-bl-lg border border-none bg-white dark:bg-black-600">
-        <div className="relative flex items-center w-full">
+        <div className="relative flex items-center w-full rounded-full border border-gray-700 bg-[#2A2A2A] hover:bg-[#313131] transition-colors">
+          <input
+            type="file"
+            id="file-input"
+            className="hidden"
+            onChange={handleAttachment}
+          />
+          <label
+            htmlFor="file-input"
+            className="pl-3 absolute top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 dark:text-gray-400"
+          >
+            <img src="\attachment.png" className="h-5 w-5" />
+          </label>
+
           <TextareaAutosize
-            className="flex-grow resize-none rounded-t-lg border border-gray-300 bg-gray-100 dark:bg-black-500 dark:border-gray-600 text-gray-800 dark:text-gray-200 p-3 pr-12 focus:outline-none focus:ring-2 focus:ring-black-400 placeholder-gray-500 dark:placeholder-gray-400"
-            placeholder="Type a message..."
+            className="pl-10 flex-grow resize-none bg-transparent text-gray-200 py-3 focus:outline-none placeholder-gray-500"
+            placeholder="Ask anything..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             minRows={1}
             maxRows={6}
           />
+
           <button
             onClick={handleSend}
             disabled={isLoading}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black-600 hover:bg-black-500 text-white rounded-full h-8 w-8 flex items-center justify-center disabled:opacity-50"
+            className="flex items-center justify-center h-12 w-12 text-gray-400 hover:text-gray-300 disabled:opacity-50"
+            aria-label="Send message"
           >
             <Send className="h-4 w-4" />
           </button>
