@@ -15,8 +15,18 @@ const genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" ,safetySettings});
 
-// const prompt = "Explain how AI works";
-
-// const result = await model.generateContent(prompt);
-// console.log(result.response.text());
-export default model;
+const chat = model.startChat({
+  history: [
+    {
+      role: "user",
+      parts: [{ text: "Hello" }],
+    },
+    {
+      role: "model",
+      parts: [
+        { text: "Great to meet you. What would you like to know?" },
+      ],
+    },
+  ],
+});
+export default chat;

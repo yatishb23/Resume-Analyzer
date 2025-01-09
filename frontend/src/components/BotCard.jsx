@@ -5,8 +5,9 @@ import TextareaAutosize from "react-textarea-autosize";
 import Markdown from "react-markdown";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useTheme } from "./theme";
-import { Share2, Mic } from "lucide-react";
+import { Share2, Mic, X,File } from "lucide-react";
 import { Progress } from "@radix-ui/react-progress";
+import chat from "@/lib/gemini";
 
 function ChatBotCard() {
   const [messages, setMessages] = useState([]);
@@ -15,8 +16,6 @@ function ChatBotCard() {
   const { theme, toggleTheme } = useTheme();
   const messagesEndRef = useRef(null);
   const [file, setFile] = useState(null);
-
-  const apiKey = import.meta.env.VITE_API_KEY;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -30,7 +29,6 @@ function ChatBotCard() {
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setNewMessage("");
 
-      // Generate bot's response
       await botMessage(newMessage);
     }
   };
@@ -45,83 +43,123 @@ function ChatBotCard() {
   const botMessage = async (userMessage) => {
     setIsLoading(true);
 
-    const genAI = new GoogleGenerativeAI(apiKey);
     let botMessageIndex;
 
-    try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const pdfData = reader.result.split(",")[1];
+        try {
+          setMessages((prevMessages) => {
+            const updatedMessages = [
+              ...prevMessages,
+              { text: "", sender: "bot", isComplete: false },
+            ];
+            botMessageIndex = updatedMessages.length - 1;
+            return updatedMessages;
+          });
+          const result = await chat.sendMessageStream([
+            {
+              inlineData: {
+                data: pdfData,
+                mimeType: "application/pdf",
+              },
+            },
+            userMessage,
+          ]);
+          let accumulatedText = "";
+          for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+            console.log("Received chunk:", chunkText);
+            accumulatedText += chunkText;
 
-      setMessages((prevMessages) => {
-        const updatedMessages = [
-          ...prevMessages,
-          { text: "", sender: "bot", isComplete: false },
-        ];
-        botMessageIndex = updatedMessages.length - 1;
-        return updatedMessages;
-      });
+            setMessages((prevMessages) => {
+              const updatedMessages = [...prevMessages];
+              if (updatedMessages[botMessageIndex]) {
+                updatedMessages[botMessageIndex].text = accumulatedText;
+              }
+              return updatedMessages;
+            });
+          }
+          setMessages((prevMessages) => {
+            const updatedMessages = [...prevMessages];
+            if (updatedMessages[botMessageIndex]) {
+              updatedMessages[botMessageIndex].isComplete = true;
+            }
+            return updatedMessages;
+          });
+        } catch (error) {
+          console.error("Error summarizing PDF:", error);
+          setSummary("Failed to generate summary.");
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      setFile(null);
+      reader.readAsDataURL(file);
+    } else {
+      try {
+        setMessages((prevMessages) => {
+          const updatedMessages = [
+            ...prevMessages,
+            { text: "", sender: "bot", isComplete: false },
+          ];
+          botMessageIndex = updatedMessages.length - 1;
+          return updatedMessages;
+        });
 
-      const chat = model.startChat({
-        history: [
-          {
-            role: "user",
-            parts: [{ text: "Hello" }],
-          },
-          {
-            role: "model",
-            parts: [
-              { text: "Great to meet you. What would you like to know?" },
-            ],
-          },
-        ],
-      });
+        const result = await chat.sendMessageStream(userMessage);
 
-      const result = await chat.sendMessageStream(userMessage);
+        let accumulatedText = "";
+        console.log("Stream started");
 
-      let accumulatedText = "";
-      console.log("Stream started");
+        for await (const chunk of result.stream) {
+          const chunkText = chunk.text();
+          console.log("Received chunk:", chunkText);
+          accumulatedText += chunkText;
 
-      for await (const chunk of result.stream) {
-        const chunkText = chunk.text();
-        console.log("Received chunk:", chunkText);
-        accumulatedText += chunkText;
+          setMessages((prevMessages) => {
+            const updatedMessages = [...prevMessages];
+            if (updatedMessages[botMessageIndex]) {
+              updatedMessages[botMessageIndex].text = accumulatedText;
+            }
+            return updatedMessages;
+          });
+        }
 
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages];
           if (updatedMessages[botMessageIndex]) {
-            updatedMessages[botMessageIndex].text = accumulatedText;
+            updatedMessages[botMessageIndex].isComplete = true;
           }
           return updatedMessages;
         });
+
+        console.log("Stream finished");
+      } catch (error) {
+        console.error("Error generating bot response:", error);
+
+        // Display error in the bot message
+        setMessages((prevMessages) => {
+          const updatedMessages = [...prevMessages];
+          if (updatedMessages[botMessageIndex]) {
+            updatedMessages[botMessageIndex].text =
+              "Sorry, I encountered an error. Please try again.";
+          }
+          return updatedMessages;
+        });
+      } finally {
+        setIsLoading(false);
       }
-
-      setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        if (updatedMessages[botMessageIndex]) {
-          updatedMessages[botMessageIndex].isComplete = true;
-        }
-        return updatedMessages;
-      });
-
-      console.log("Stream finished");
-    } catch (error) {
-      console.error("Error generating bot response:", error);
-
-      // Display error in the bot message
-      setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        if (updatedMessages[botMessageIndex]) {
-          updatedMessages[botMessageIndex].text =
-            "Sorry, I encountered an error. Please try again.";
-        }
-        return updatedMessages;
-      });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleAttachment = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const removeAttachment = (e) => {
+    setFile(null);
   };
 
   return (
@@ -233,38 +271,60 @@ function ChatBotCard() {
         </div>
       </CardContent>
       <div className="border-t p-4 sticky bottom-0 rounded-br-lg rounded-bl-lg border border-none bg-white dark:bg-black-600">
-        <div className="relative flex items-center w-full rounded-full border border-gray-700 bg-[#2A2A2A] hover:bg-[#313131] transition-colors">
-          <input
-            type="file"
-            id="file-input"
-            className="hidden"
-            onChange={handleAttachment}
-          />
-          <label
-            htmlFor="file-input"
-            className="pl-3 absolute top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 dark:text-gray-400"
-          >
-            <img src="\attachment.png" className="h-5 w-5" />
-          </label>
+        <div className="relative flex flex-col w-full rounded-lg border border-gray-600 bg-[#2A2A2A] hover:bg-[#313131]  transition-colors">
+          {file && (
+            <div className="p-3 rounded-md flex items-center space-x-2 mb-2">
+            <File className="h-6 w-6 text-white"/>
+              <span className="text-sm text-gray-300 truncate max-w-full">
+                {file.name}
+              </span>
+              <button
+                onClick={removeAttachment}
+                className="text-gray-400 hover:text-gray-200"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          )}
 
-          <TextareaAutosize
-            className="pl-10 flex-grow resize-none bg-transparent text-gray-200 py-3 focus:outline-none placeholder-gray-500"
-            placeholder="Ask anything..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            minRows={1}
-            maxRows={6}
-          />
+          <div className="relative flex items-center w-full">
+            <label
+              htmlFor="file-input"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-300"
+            >
+              <img
+                src="/attachment.png"
+                className="h-5 w-5"
+                alt="Attach file"
+              />
+            </label>
 
-          <button
-            onClick={handleSend}
-            disabled={isLoading}
-            className="flex items-center justify-center h-12 w-12 text-gray-400 hover:text-gray-300 disabled:opacity-50"
-            aria-label="Send message"
-          >
-            <Send className="h-4 w-4" />
-          </button>
+            <input
+              type="file"
+              id="file-input"
+              className="hidden"
+              onChange={handleAttachment}
+            />
+
+            <TextareaAutosize
+              className="pl-12 flex-grow resize-none bg-transparent text-gray-200 py-3 focus:outline-none placeholder-gray-400"
+              placeholder="Send a message or drop a file..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={handleKeyPress}
+              minRows={1}
+              maxRows={6}
+            />
+
+            <button
+              onClick={handleSend}
+              disabled={isLoading}
+              className="flex items-center justify-center h-10 w-10 mr-3 text-gray-400 hover:text-gray-300 disabled:opacity-50"
+              aria-label="Send message"
+            >
+              <Send className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </div>
     </Card>
