@@ -19,28 +19,28 @@ export function ResumeDropdown({ onClose, theme }) {
           </h3>
           <div className="space-y-6 text-left">
             <div>
-              <div className="flex items-center gap-2 font-medium mb-1">
+	      <a href="https://www.overleaf.com/latex/templates/tagged/cv" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1">
                 <Layout className="h-4 w-4" />
                 Creative Templates
-              </div>
+              </a>
               <p className="text-xs text-gray-600">
                 Creative resume for creative industries to capture the recruiter's attention
               </p>
             </div>
             <div>
-              <div className="flex items-center gap-2 font-medium mb-1">
+            <a href="https://enhancv.com/resume-templates/traditional/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1">
                 <FileText className="h-4 w-4" />
                 Traditional Templates
-              </div>
+              </a>
               <p className="text-xs text-gray-600">
                 For conservative industries when you need to show your career accomplishments
               </p>
             </div>
             <div>
-              <div className="flex items-center gap-2 font-medium mb-1">
+            <a href="https://resumegenius.com/resume-templates/basic-templates" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1">
                 <File className="h-4 w-4" />
                 Simple Templates
-              </div>
+              </a>
               <p className="text-xs text-gray-600">
                 Focus on your skills and accomplishments with simple resume templates
               </p>
