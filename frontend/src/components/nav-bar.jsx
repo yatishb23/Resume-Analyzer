@@ -1,10 +1,12 @@
 import { ChevronDown } from "lucide-react";
 import { ResumeDropdown } from "./ResumeDropdown";
+import { CoverLetterDropdown } from "./coverLetterDropdown"
 import { useState } from "react";
 import { Link } from "react-router";
 
 export function NavBar({ toggleTheme, theme }) {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [isCoverLetterOpen, setIsCoverLetterOpen] = useState(false);
 
   return (
     <nav
@@ -41,7 +43,11 @@ export function NavBar({ toggleTheme, theme }) {
               Resume
               <ChevronDown className="h-4 w-4" />
             </button>
-            <button className="flex items-center gap-2 hover:text-gray-900">
+            <button
+              className="flex items-center gap-2 hover:text-gray-900"
+              onClick={() => setIsCoverLetterOpen(!isCoverLetterOpen)}
+              onMouseEnter={() => setIsCoverLetterOpen(true)}
+            >
               Cover Letter
               <ChevronDown className="h-4 w-4" />
             </button>
@@ -104,6 +110,23 @@ export function NavBar({ toggleTheme, theme }) {
             />
           )}
         </div>
+
+      {/* Cover Letter Dropdown */}
+      <div
+        className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
+          isCoverLetterOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+        onMouseLeave={() => setIsCoverLetterOpen(false)}
+      >
+        {isCoverLetterOpen && (
+          <CoverLetterDropdown
+            onClose={() => setIsCoverLetterOpen(false)}
+            theme={theme}
+          />
+        )}
+      </div>
     </nav>
   );
 }
