@@ -6,6 +6,7 @@ import { LoginDialog } from "./components/Logins/Login";
 import { SignupDialog } from "./components/Logins/Signup";
 import { ThemeProvider } from "./components/theme";
 import Feedback from "./components/Feedback";
+import WritingResume from "./pages/WritingResume";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<LoginDialog />} />
             <Route path="/signup" element={<SignupDialog />} />
             <Route path="/feedback" element={<Feedback/>}/>
+            <Route path="/writing" element={<WritingResume/>}/>
           </Routes>
         </div>
       </Router>

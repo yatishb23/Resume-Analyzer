@@ -1,8 +1,7 @@
-import { ChevronDown, Layout, FileText, Box, File, BookOpen, Clock, Zap, CheckCircle } from "lucide-react";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown, Layout, FileText, Box, File, BookOpen, Clock, Zap, CheckCircle, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export function ResumeDropdown({ onClose, theme }) {
+export function CoverLetterDropdown({ onClose, theme }) {
   return (
     <div
       className={`absolute top-full left-0 w-full shadow-lg border-t transform transition-all duration-300 ${
@@ -15,35 +14,35 @@ export function ResumeDropdown({ onClose, theme }) {
             theme==="dark" ? "text-white": "text-black-600"
           }`}>
             <Layout className="h-5 w-5" />
-            Resume Templates
+            Cover Letter Templates
             <ChevronRight className="h-4 w-4" />
           </h3>
           <div className="space-y-6 text-left">
             <div>
-	      <a href="https://www.overleaf.com/latex/templates/tagged/cv" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1 hover:underline">
+              <div className="flex items-center gap-2 font-medium mb-1 hover:underline">
                 <Layout className="h-4 w-4" />
-                Creative Templates
-              </a>
+                Modern Templates
+              </div>
               <p className="text-xs text-gray-600">
-                Creative resume for creative industries to capture the recruiter's attention
+                Contemporary designs perfect for tech, creative, and startup roles
               </p>
             </div>
             <div>
-            <a href="https://enhancv.com/resume-templates/traditional/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1 hover:underline">
+              <div className="flex items-center gap-2 font-medium mb-1 hover:underline">
                 <FileText className="h-4 w-4" />
-                Traditional Templates
-              </a>
+                Professional Templates
+              </div>
               <p className="text-xs text-gray-600">
-                For conservative industries when you need to show your career accomplishments
+                Classic formats ideal for corporate, legal, and executive positions
               </p>
             </div>
             <div>
-            <a href="https://resumegenius.com/resume-templates/basic-templates" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1 hover:underline" >
+              <div className="flex items-center gap-2 font-medium mb-1 hover:underline">
                 <File className="h-4 w-4" />
-                Simple Templates
-              </a>
+                Academic Templates
+              </div>
               <p className="text-xs text-gray-600">
-                Focus on your skills and accomplishments with simple resume templates
+                Structured formats for academic and research positions
               </p>
             </div>
           </div>
@@ -54,29 +53,28 @@ export function ResumeDropdown({ onClose, theme }) {
             theme==="dark" ? "text-white": "text-black-600"
           }`}>
             <BookOpen className="h-5 w-5" />
-            Resume Writing Guides
+            Writing Guides
             <ChevronRight className="h-4 w-4" />
           </h3>
           <div className="space-y-6 text-left">
             <div>
-            <Link to="/writing" className="font-medium mb-1 hover:underline">
-              Writing a Resume
-            </Link>
-
-              <p className="text-xs text-gray-600 ">
-                The most comprehensive guide on the internet about writing a resume
+              <Link to="/cover-letter-writing" className="font-medium mb-1 hover:underline">
+                Writing a Cover Letter
+              </Link>
+              <p className="text-xs text-gray-600">
+                Step-by-step guide to crafting a compelling cover letter
               </p>
             </div>
             <div>
-              <div className="font-medium mb-1">Resume Summary</div>
+              <div className="font-medium mb-1">Opening Paragraphs</div>
               <p className="text-xs text-gray-600">
-                How to include and write a summary that gets your point across quickly
+                How to write attention-grabbing introductions that showcase your value
               </p>
             </div>
             <div>
-              <div className="font-medium mb-1">Fitting Experience on One Page</div>
+              <div className="font-medium mb-1">Addressing Requirements</div>
               <p className="text-xs text-gray-600">
-                The tricks behind fitting a lot of experience on a single page
+                Techniques for matching your skills to job requirements effectively
               </p>
             </div>
           </div>
@@ -88,25 +86,22 @@ export function ResumeDropdown({ onClose, theme }) {
             theme==="dark" ? "text-white": "text-black-600"
           }`}>
               <Layout className="h-5 w-5" />
-              Resume Examples
+              Industry Examples
               <ChevronRight className="h-4 w-4 text-left" />
             </h3>
             <ul className="space-y-2">
-              <li>Project Manager</li>
-              <li>Data Scientist</li>
-              <li>Scrum Master</li>
-              <li>Business Analyst</li>
+              <li>Software Engineer</li>
+              <li>Marketing Manager</li>
+              <li>Research Assistant</li>
+              <li>Product Manager</li>
             </ul>
           </div>
         </div>
 
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6">
-          <h3 className="text-2xl font-bold mb-4 text-left">
-            ATS-friendly resume builder
-          </h3>
           <img
-            src="resume.png"
-            alt="Resume Preview"
+            src="cover-letter.png"
+            alt="Cover Letter Preview"
             className="w-full h-min rounded-lg shadow-lg"
           />
         </div>
