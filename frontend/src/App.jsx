@@ -7,6 +7,8 @@ import { SignupDialog } from "./components/Logins/Signup";
 import { ThemeProvider } from "./components/theme";
 import Feedback from "./components/Feedback";
 import WritingResume from "./pages/WritingResume";
+import ResumeSummary from "./pages/ResumeSummary";
+import PageFitting from "./pages/PageFitting";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <Route path="/signup" element={<SignupDialog />} />
             <Route path="/feedback" element={<Feedback/>}/>
             <Route path="/writing" element={<WritingResume/>}/>
+            <Route path="/summary" element={<ResumeSummary/>}/>
+            <Route path="/fitting" element={<PageFitting/>}/>
           </Routes>
         </div>
       </Router>

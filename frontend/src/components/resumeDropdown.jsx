@@ -68,13 +68,17 @@ export function ResumeDropdown({ onClose, theme }) {
               </p>
             </div>
             <div>
-              <div className="font-medium mb-1">Resume Summary</div>
+              <Link to="/summary" className="font-medium mb-1 hover:underline">
+                Resume Summary
+              </Link>
               <p className="text-xs text-gray-600">
                 How to include and write a summary that gets your point across quickly
               </p>
             </div>
             <div>
-              <div className="font-medium mb-1">Fitting Experience on One Page</div>
+              <Link to="/fitting" className="font-medium mb-1 hover:underline">
+                Fitting Experience on One Page
+              </Link>
               <p className="text-xs text-gray-600">
                 The tricks behind fitting a lot of experience on a single page
               </p>

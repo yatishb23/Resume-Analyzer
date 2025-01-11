@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Target, Award, CheckCircle2, AlertTriangle, Clock, User, Briefcase, ScrollText } from "lucide-react";
 import { NavBar } from "@/components/nav-bar";
 import { useTheme } from "@/components/theme";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ResumeBlogPage = () => {
   const { theme, toggleTheme } = useTheme();
@@ -13,7 +13,7 @@ const ResumeBlogPage = () => {
     <div className="min-h-screen bg-background">
       {/* Navigation Bar */}
       <NavBar toggleTheme={toggleTheme} theme={theme} />
-      {/* Hero Section with Gradient Background */}
+      {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-b from-primary/10 to-background pb-16 pt-24">
         <div className="absolute inset-0 bg-grid-white/10" />
         <div className="relative mx-auto max-w-[1200px] px-4 text-center">
@@ -35,7 +35,7 @@ const ResumeBlogPage = () => {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 py-16 space-y-12">
-        {/* Quick Tips Grid */}
+        {/* Quick Tips */}
         <div className="grid md:grid-cols-4 gap-6 mb-12">
           {[
             {
@@ -163,9 +163,9 @@ const ResumeBlogPage = () => {
             <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
               Use our AI-powered Resume Analyzer to ensure your resume follows best practices and stands out to employers.
             </p>
-            <a href="/" className="bg-background text-foreground hover:bg-background/90 text-lg px-8 py-3 rounded-lg inline-block">
+            <Link to="/" className="bg-background text-foreground hover:bg-background/90 text-lg px-8 py-3 rounded-lg inline-block">
               Analyze Your Resume
-            </a>
+            </Link>
           </CardContent>
         </Card>
       </div>
