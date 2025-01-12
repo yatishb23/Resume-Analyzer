@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { ResumeDropdown } from "./ResumeDropdown";
-import { CoverLetterDropdown } from "./coverLetterDropdown"
+import { CoverLetterDropdown } from "./coverLetterDropdown";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -35,18 +35,28 @@ export function NavBar({ toggleTheme, theme }) {
           <div className="hidden md:flex items-center gap-6">
             <button
               className="flex items-center gap-2 hover:text-gray-900"
-              onClick={() => setIsResumeOpen(!isResumeOpen)}
-              onMouseEnter={() => setIsResumeOpen(true)}
-              
-              
+              onClick={() => {
+                setIsResumeOpen(!isResumeOpen);
+                setIsCoverLetterOpen(false);
+              }}
+              onMouseOver={() => {
+                setIsCoverLetterOpen(false);
+                setIsResumeOpen(true);
+              }}
             >
               Resume
               <ChevronDown className="h-4 w-4" />
             </button>
             <button
               className="flex items-center gap-2 hover:text-gray-900"
-              onClick={() => setIsCoverLetterOpen(!isCoverLetterOpen)}
-              onMouseEnter={() => setIsCoverLetterOpen(true)}
+              onClick={() => {
+                setIsCoverLetterOpen(!isCoverLetterOpen);
+                setIsResumeOpen(false);
+              }}
+              onMouseOver={() => {
+                setIsCoverLetterOpen(true);
+                setIsResumeOpen(false);
+              }}
             >
               Cover Letter
               <ChevronDown className="h-4 w-4" />
@@ -93,23 +103,22 @@ export function NavBar({ toggleTheme, theme }) {
             <Link to="/signup">Sign Up</Link>
           </button>
         </div>
-        
       </div>
       <div
-          className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
-            isResumeOpen
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-4"
-          }`}
-          onMouseLeave={() => setIsResumeOpen(false)}
-        >
-          {isResumeOpen && (
-            <ResumeDropdown
-              onClose={() => setIsResumeOpen(false)}
-              theme={theme}
-            />
-          )}
-        </div>
+        className={`absolute top-full left-0 w-full bg-white shadow-lg border-t transform transition-all duration-300 ${
+          isResumeOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4"
+        }`}
+        onMouseLeave={() => setIsResumeOpen(false)}
+      >
+        {isResumeOpen && (
+          <ResumeDropdown
+            onClose={() => setIsResumeOpen(false)}
+            theme={theme}
+          />
+        )}
+      </div>
 
       {/* Cover Letter Dropdown */}
       <div
