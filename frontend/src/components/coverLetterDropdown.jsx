@@ -19,28 +19,28 @@ export function CoverLetterDropdown({ onClose, theme }) {
           </h3>
           <div className="space-y-6 text-left">
             <div>
-              <div className="flex items-center gap-2 font-medium mb-1 hover:underline">
+              <a href="https://resumegenius.com/cover-letter-templates/modern-templates" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1 hover:underline">
                 <Layout className="h-4 w-4" />
                 Modern Templates
-              </div>
+              </a>
               <p className="text-xs text-gray-600">
                 Contemporary designs perfect for tech, creative, and startup roles
               </p>
             </div>
             <div>
-              <div className="flex items-center gap-2 font-medium mb-1 hover:underline">
+              <a href="https://create.microsoft.com/en-us/templates/cover-letters" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1 hover:underline">
                 <FileText className="h-4 w-4" />
                 Professional Templates
-              </div>
+              </a>
               <p className="text-xs text-gray-600">
                 Classic formats ideal for corporate, legal, and executive positions
               </p>
             </div>
             <div>
-              <div className="flex items-center gap-2 font-medium mb-1 hover:underline">
+              <a href="https://resumegenius.com/cover-letter-examples/academic-cover-letter-sample" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-medium mb-1 hover:underline">
                 <File className="h-4 w-4" />
                 Academic Templates
-              </div>
+              </a>
               <p className="text-xs text-gray-600">
                 Structured formats for academic and research positions
               </p>
