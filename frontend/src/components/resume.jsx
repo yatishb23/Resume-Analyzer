@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Lock, Loader2, FileText } from 'lucide-react';
+import { Lock, Loader2, FileText } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { cn } from "../lib/utils";
 import { useTheme } from "./theme";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "./nav-bar";
+import { useFileContext } from "@/File Provider/FileProvider";
 
 export function ResumeChecker() {
-  const { theme,toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+  const { file, resumeContent, handleFileUpload, resetFile } = useFileContext();
   const [isDragging, setIsDragging] = useState(false);
-  const [file, setFile] = useState(null);
-  const [resumeContent, setResumeContent] = useState('');
   const [jobDescription, setJobDescription] = useState("");
   const [isEvaluateButtonDisabled, setIsEvaluateButtonDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,10 +29,9 @@ export function ResumeChecker() {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-    e.stopPropagation();
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile) {
-      handleFileUpload({ target});
+      handleFileUpload({ target: { files: [droppedFile] } });
     }
   };
 
@@ -40,44 +39,12 @@ export function ResumeChecker() {
     setJobDescription(e.target.value);
   };
 
-  const handleFileUpload = (e) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-  
-      const reader = new FileReader();
-  
-      if (selectedFile.type === 'application/pdf') {
-        reader.onload = (event) => {
-          const content = event.target?.result; // Base64 Data URL
-          setResumeContent(content);
-        };
-        reader.readAsDataURL(selectedFile);
-      } else {
-        reader.onload = (event) => {
-          const content = event.target?.result; // Text content for DOCX
-          setResumeContent(content);
-        };
-        reader.readAsText(selectedFile);
-      }
-    }
-  };
-  
-
   const handleEvaluateClick = async () => {
     setIsLoading(true);
     try {
-      // Simulate API call (replace with actual API call)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Redirect to feedback page with resume content and job description
-      navigate('/feedback', { 
-        state: { 
-          resumeContent, 
-          jobDescription, 
-          fileType: file.type, 
-          fileName: file.name 
-        } 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      navigate("/feedback", {
+        state: { resumeContent, jobDescription, fileType: file.type, fileName: file.name },
       });
     } catch (error) {
       console.error("Error evaluating resume:", error);
@@ -85,7 +52,6 @@ export function ResumeChecker() {
       setIsLoading(false);
     }
   };
-  
 
   useEffect(() => {
     setIsEvaluateButtonDisabled(!(file && jobDescription.trim()));
@@ -100,7 +66,7 @@ export function ResumeChecker() {
           : "bg-gradient-to-br from-emerald-50/80 to-purple-50/80"
       )}
     >
-    <NavBar toggleTheme={toggleTheme} theme={theme} />
+      <NavBar toggleTheme={toggleTheme} theme={theme} />
       <div className="flex flex-col items-center justify-center min-h-screen p-4 pt-20">
         <div className="w-full max-w-3xl text-center mb-8">
           <div className="space-y-4">
@@ -247,4 +213,3 @@ export function ResumeChecker() {
     </div>
   );
 }
-
