@@ -139,7 +139,6 @@ function ChatBotCard() {
       } catch (error) {
         console.error("Error generating bot response:", error);
 
-        // Display error in the bot message
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages];
           if (updatedMessages[botMessageIndex]) {
