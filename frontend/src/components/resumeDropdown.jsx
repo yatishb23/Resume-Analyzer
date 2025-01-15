@@ -96,10 +96,26 @@ export function ResumeDropdown({ onClose, theme }) {
               <ChevronRight className="h-4 w-4 text-left" />
             </h3>
             <ul className="space-y-2">
-              <li>Project Manager</li>
-              <li>Data Scientist</li>
-              <li>Scrum Master</li>
-              <li>Business Analyst</li>
+              <li>
+                <Link to="/examples" className="hover:underline text-primary">
+                  Project Manager
+                </Link>
+              </li>
+              <li>
+                <Link to="/examples" className="hover:underline text-primary">
+                  Data Scientist
+                </Link>
+              </li>
+              <li>
+                <Link to="/examples" className="hover:underline text-primary">
+                  Software Engineer
+                </Link>
+              </li>
+              <li>
+                <Link to="/examples" className="hover:underline text-primary">
+                  Business Analyst
+                </Link>  
+              </li>
             </ul>
           </div>
         </div>

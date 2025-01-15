@@ -9,6 +9,7 @@ import Feedback from "./components/Feedback";
 import WritingResume from "./pages/WritingResume";
 import ResumeSummary from "./pages/ResumeSummary";
 import PageFitting from "./pages/PageFitting";
+import ResumeExamples from "./pages/ResumeExamples";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/writing" element={<WritingResume/>}/>
             <Route path="/summary" element={<ResumeSummary/>}/>
             <Route path="/fitting" element={<PageFitting/>}/>
+            <Route path="/examples" element={<ResumeExamples/>}/>
           </Routes>
         </div>
       </Router>
